@@ -20,10 +20,6 @@ class Stock(Base):
     book_id = sq.Column(sq.Integer, sq.ForeignKey('Book.id'))
     shop_id = sq.Column(sq.Integer, sq.ForeignKey('Shop.id'))
     count = sq.Column(sq.Integer, nullable=False)
-    stock_rel = relationship('Sale', backref='stock')
-
-    def __str__(self):
-        return {Stock.id}
 
 class Shop(Base):
     __tablename__ = 'Shop'
@@ -37,9 +33,6 @@ class Sale(Base):
     date_sale = sq.Column(sq.DateTime, nullable=False)
     id_stock = sq.Column(sq.Integer, sq.ForeignKey("Stock.id"))
     count = sq.Column(sq.Integer, nullable=False)
-
-    def __str__(self):
-        return f'Sale {self.id} | {self.id_stock} | {self.date_sale} | '
     
 def create_tables(eng):
     Base.metadata.drop_all(eng)
