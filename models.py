@@ -13,6 +13,7 @@ class Book(Base):
     id = sq.Column(sq.Integer, primary_key=True)
     title = sq.Column(sq.String(length=40), nullable=False)
     publisher_id = sq.Column(sq.Integer, sq.ForeignKey('Publisher.id'))
+    publishers = relationship("Publisher", backref='Book')
 
 class Stock(Base):
     __tablename__ = 'Stock'
@@ -20,6 +21,8 @@ class Stock(Base):
     book_id = sq.Column(sq.Integer, sq.ForeignKey('Book.id'))
     shop_id = sq.Column(sq.Integer, sq.ForeignKey('Shop.id'))
     count = sq.Column(sq.Integer, nullable=False)
+    shops = relationship("Shop", backref="Stock")
+    books = relationship('Book', backref="Book")
 
 class Shop(Base):
     __tablename__ = 'Shop'
@@ -33,6 +36,7 @@ class Sale(Base):
     date_sale = sq.Column(sq.DateTime, nullable=False)
     id_stock = sq.Column(sq.Integer, sq.ForeignKey("Stock.id"))
     count = sq.Column(sq.Integer, nullable=False)
+    stocks = relationship('Stock', backref='Sale')
     
 def create_tables(eng):
     Base.metadata.drop_all(eng)
